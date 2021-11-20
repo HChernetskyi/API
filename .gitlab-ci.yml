@@ -1,0 +1,9 @@
+image: mcr.microsoft.com/dotnet/core/sdk:latest
+
+stages:
+    - build
+
+build:
+    stage: build
+    script:
+        - "dotnet build API/AutomationFramework/AutomationFramework.sln"
