@@ -36,10 +36,11 @@ namespace AutomationFramework.Tests
         [Test, Order(3)]
         public void NegativeTestWithInvalidPath()
         {
+            
             Car updateCar = new Car() { id = carId, build = 1980, manufacturer = "Vaz", model = "2101" };
             RequestHelper api = new RequestHelper();
-            HttpResponseMessage response = api.PutAsync(url + carId, updateCar).Result;
-            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode, "Incorrect StatusCode for PUT request");
+            HttpResponseMessage response = api.PutAsync(url + 4, updateCar).Result;
+            Assert.AreEqual(HttpStatusCode.MethodNotAllowed, response.StatusCode, "Incorrect StatusCode for PUT request");
         }
         [Test, Order(4)]
         public void NegativeTestWithInvalidDate()
