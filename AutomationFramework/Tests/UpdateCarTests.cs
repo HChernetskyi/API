@@ -15,7 +15,7 @@ namespace AutomationFramework.Tests
         [Test, Order(1)]
         public void PositiveTestWithValidBody()
         {
-            Car updateCar = new Car() { id = carId, build = 2020, manufacturer = "ZAZ", model = "SENS" };
+            Car updateCar = new Car() { id = carId, build = 2020, manufacturer = "ZAZ", model = "Lanos" };
             RequestHelper api = new RequestHelper();
             HttpResponseMessage oldRecord = api.GetAsync(url + carId).Result;
             Car oldBody = oldRecord.GetDeserializedResponse<Car>();
@@ -28,7 +28,7 @@ namespace AutomationFramework.Tests
         [Test, Order(2)]
         public void NegativeTestWithValidId()
         {
-            Car updateCar = new Car() { id = carId * -1, build = 2008, manufacturer = "Mitsubishi", model = "Lancer X" };
+            Car updateCar = new Car() { id = carId * -1, build = 2008, manufacturer = "Mitsubishi", model = "Lancer 3" };
             RequestHelper api = new RequestHelper();
             HttpResponseMessage response = api.PutAsync(url, updateCar).Result;
             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode, "Incorrect StatusCode for PUT request");
