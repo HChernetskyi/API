@@ -13,7 +13,7 @@ namespace AutomationFramework.Tests
         {
             string url = "https://car-fleet-management.herokuapp.com/cars/";
             RequestHelper api = new RequestHelper();
-            HttpResponseMessage response = api.Get(url + recordId);
+            HttpResponseMessage response = api.GetAsync(url + recordId).Result;
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "Incorrect StatusCode for GET request");
         }
         [Test, Order(2)]
@@ -31,7 +31,7 @@ namespace AutomationFramework.Tests
 .Replace(" ", "")
 .Replace("\r", "").Replace("\t", "").Replace("\n", "");
             RequestHelper api = new RequestHelper();
-            HttpResponseMessage response = api.Get(url + recordId);
+            HttpResponseMessage response = api.GetAsync(url + recordId).Result;
             string responseBody = response.GetStringResponse().Replace(" ", "");
             Assert.AreEqual(expectedResponseBody, responseBody, "Incorrect Response Body");
         }
@@ -40,7 +40,7 @@ namespace AutomationFramework.Tests
         {
             string url = "https://car-fleet-management.herokuapp.com/cars/";
             RequestHelper api = new RequestHelper();
-            HttpResponseMessage response = api.Get(url + recordId * -1);
+            HttpResponseMessage response = api.GetAsync(url + recordId * -1).Result;
             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode, "Incorrect StatusCode for GET request");
         }
     }

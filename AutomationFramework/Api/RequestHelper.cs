@@ -49,7 +49,7 @@ namespace AutomationFramework.Api
         /// <param name="retryCount">Sets the number of attempts that will be made in case of unsuccessful http request.</param>
         /// <param name="retryTimeout">The duration (in seconds) to wait for for a particular retry attempt.</param>
         /// <returns>Object that represents http response.</returns>
-        public HttpResponseMessage Get(string url, int timeOut = 60, int retryCount = 0, int retryTimeout = 5)
+        public async Task<HttpResponseMessage> GetAsync(string url, int timeOut = 60, int retryCount = 0, int retryTimeout = 5)
         {
             var httpClient = new HttpClient(_httpClientHandler)
             {
@@ -62,11 +62,11 @@ namespace AutomationFramework.Api
                 return requestMessage;
             }
 
-            var response = Policy
+            var response = await Policy
                 .HandleResult<HttpResponseMessage>(message => !message.IsSuccessStatusCode)
                 .WaitAndRetryAsync(retryCount, i => TimeSpan.FromSeconds(retryTimeout), (result, timeSpan, rCount, context) =>{})
                 .ExecuteAsync(() => httpClient.SendAsync(CreateHttpRequestMessage()));
-            return response.Result;
+            return response;
         }
 
         /// <summary>
@@ -79,12 +79,12 @@ namespace AutomationFramework.Api
         /// <param name="retryTimeout">The duration (in seconds) to wait for for a particular retry attempt.</param>
         /// <param name="ignoreSslValidations">Indicates whether the ssl certificate validation will be ignored.</param>
         /// <returns>Object that represents http response.</returns>
-        public HttpResponseMessage Post(string url, object data, int timeOut = 60, int retryCount = 0, int retryTimeout = 5, bool ignoreSslValidations = false)
+        public async Task<HttpResponseMessage> PostAsync(string url, object data, int timeOut = 60, int retryCount = 0, int retryTimeout = 5, bool ignoreSslValidations = false)
         {
             var content = JsonConvert.SerializeObject(data);
 
-            return SendRequestAsync(HttpMethod.Post, url, content, ContentType.Json, timeOut, retryCount,
-                retryTimeout, ignoreSslValidations).Result;
+            return await SendRequestAsync(HttpMethod.Post, url, content, ContentType.Json, timeOut, retryCount,
+                retryTimeout, ignoreSslValidations);
         }
 
         /// <summary>
@@ -97,12 +97,12 @@ namespace AutomationFramework.Api
         /// <param name="retryTimeout">The duration (in seconds) to wait for for a particular retry attempt.</param>
         /// <param name="ignoreSslValidations">Indicates whether the ssl certificate validation will be ignored.</param>
         /// <returns>Object that represents http response.</returns>
-        public HttpResponseMessage Put(string url, object data, int timeOut = 60, int retryCount = 0, int retryTimeout = 5, bool ignoreSslValidations = false)
+        public async Task <HttpResponseMessage> PutAsync(string url, object data, int timeOut = 60, int retryCount = 0, int retryTimeout = 5, bool ignoreSslValidations = false)
         {
             var content = JsonConvert.SerializeObject(data);
 
-            return SendRequestAsync(HttpMethod.Put, url, content, ContentType.Json, timeOut, retryCount,
-                retryTimeout, ignoreSslValidations).Result;
+            return await SendRequestAsync(HttpMethod.Put, url, content, ContentType.Json, timeOut, retryCount,
+                retryTimeout, ignoreSslValidations);
         }
 
         /// <summary>
@@ -115,10 +115,10 @@ namespace AutomationFramework.Api
         /// <param name="retryTimeout">The duration (in seconds) to wait for for a particular retry attempt.</param>
         /// <param name="ignoreSslValidations">Indicates whether the ssl certificate validation will be ignored.</param>
         /// <returns>Object that represents http response.</returns>
-        public HttpResponseMessage Delete(string url, string data, int timeOut = 60, int retryCount = 0, int retryTimeout = 5, bool ignoreSslValidations = false)
+        public async Task<HttpResponseMessage> DeleteAsync(string url, string data, int timeOut = 60, int retryCount = 0, int retryTimeout = 5, bool ignoreSslValidations = false)
         {
-            return SendRequestAsync(HttpMethod.Delete, url, data, ContentType.Json, timeOut, retryCount,
-                retryTimeout, ignoreSslValidations).Result;
+            return await SendRequestAsync(HttpMethod.Delete, url, data, ContentType.Json, timeOut, retryCount,
+                retryTimeout, ignoreSslValidations);
         }
 
         #endregion

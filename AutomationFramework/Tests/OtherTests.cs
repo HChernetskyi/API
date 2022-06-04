@@ -17,7 +17,7 @@ namespace AutomationFramework.Tests
             RequestHelper api = new RequestHelper();
             while (findId == false)
             {
-                HttpResponseMessage responseMessage = api.Get(url + carId);
+                HttpResponseMessage responseMessage = api.GetAsync(url + carId).Result;
                 Car responseBody = responseMessage.GetDeserializedResponse<Car>();
                 if (responseMessage.StatusCode == HttpStatusCode.NotFound)
                 {
@@ -34,7 +34,7 @@ namespace AutomationFramework.Tests
             string url = "https://car-fleet-management.herokuapp.com/cars";
             Car newCar = new Car() { id = carId, build = 2020, manufacturer = "Jac", model = "Model CW6x" };
             RequestHelper api = new RequestHelper();
-            HttpResponseMessage response = api.Post(url, newCar);
+            HttpResponseMessage response = api.PostAsync(url, newCar).Result;
             Car responseBody = response.GetDeserializedResponse<Car>();
             carId = responseBody.id;
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "Incorrect StatusCode");
@@ -44,7 +44,7 @@ namespace AutomationFramework.Tests
         {
             string url = "https://car-fleet-management.herokuapp.com/cars/";
             RequestHelper api = new RequestHelper();
-            HttpResponseMessage response = api.Delete(url + carId, "accept: */*");
+            HttpResponseMessage response = api.DeleteAsync(url + carId, "accept: */*").Result;
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "Incorrect StatusCode");
         }
     }

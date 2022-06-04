@@ -37,7 +37,7 @@ namespace AutomationFramework.Tests
 .Replace(" ", "")
 .Replace("\r", "").Replace("\t", "").Replace("\n", "");
             RequestHelper api = new RequestHelper();
-            HttpResponseMessage response = api.Get(url);
+            HttpResponseMessage response = api.GetAsync(url).Result;
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "Incorrect StatusCode");
             string responseBody = response.GetStringResponse().Replace(" ", "");
             Assert.AreEqual(expectedResponseBody, responseBody, "Incorrect ResponseBody");
@@ -47,7 +47,7 @@ namespace AutomationFramework.Tests
         {
             Car newCar = new Car() { id = 4, build = 2020, manufacturer = "Tesla", model = "-1" };
             RequestHelper api = new RequestHelper();
-            HttpResponseMessage response = api.Post(url, newCar);
+            HttpResponseMessage response = api.PostAsync(url, newCar).Result;
             var x = response.GetStringResponse();
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "Incorrect StatusCode");
             Car responseBody = response.GetDeserializedResponse<Car>();

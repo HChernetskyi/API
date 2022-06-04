@@ -7166,6 +7166,31 @@
             <param name="actual">The value to be tested</param>
             <returns>True for success, false for failure</returns>
         </member>
+        <member name="T:NUnit.Framework.Constraints.CountZeroConstraint">
+            <summary>
+            CountZeroConstraint tests whether an instance has a property .Count with value zero.
+            </summary>
+        </member>
+        <member name="P:NUnit.Framework.Constraints.CountZeroConstraint.Description">
+            <summary>
+            The Description of what this constraint tests, for
+            use in messages and in the ConstraintResult.
+            </summary>
+        </member>
+        <member name="M:NUnit.Framework.Constraints.CountZeroConstraint.HasCountProperty(System.Type)">
+            <summary>
+            Checks if the specified <paramref name="type"/> has a int Count property.
+            </summary>
+            <param name="type">Type to check.</param>
+            <returns><see langword="true"/> when <paramref name="type"/> has a 'int Count' property, <see langword="false"/> otherwise.</returns>
+        </member>
+        <member name="M:NUnit.Framework.Constraints.CountZeroConstraint.ApplyTo``1(``0)">
+            <summary>
+            Test whether the constraint is satisfied by a given value
+            </summary>
+            <param name="actual">The value to be tested</param>
+            <returns>True for success, false for failure</returns>
+        </member>
         <member name="T:NUnit.Framework.Constraints.DateTimes">
             <summary>
             The DateTimes class contains common operations on Date and Time values.
@@ -12882,6 +12907,21 @@
             <param name="method">The MethodInfo for which a test is to be built</param>
             <param name="suite">The test suite for which the method is being built</param>
         </member>
+        <member name="T:NUnit.Framework.Internal.Builders.MethodInfoCache">
+            <summary>
+            Caches static information for IMethodInfo to reduce re-calculations and memory allocations from reflection.
+            </summary>
+        </member>
+        <member name="M:NUnit.Framework.Internal.Builders.MethodInfoCache.Get(NUnit.Framework.Interfaces.IMethodInfo)">
+            <summary>
+            Returns cached metadata for method instance.
+            </summary>
+        </member>
+        <member name="T:NUnit.Framework.Internal.Builders.MethodInfoCache.TestMethodMetadata">
+            <summary>
+            Memoization of TestMethod information to reduce subsequent allocations from parameter and attribute information.
+            </summary>
+        </member>
         <member name="T:NUnit.Framework.Internal.Builders.NamespaceTreeBuilder">
             <summary>
             Class that can build a tree of automatic namespace
@@ -12943,15 +12983,16 @@
             <param name="parentSuite">The suite or fixture to which the new test will be added</param>
             <param name="parms">The ParameterSet to be used, or null</param>
         </member>
-        <member name="M:NUnit.Framework.Internal.Builders.NUnitTestCaseBuilder.CheckTestMethodAttributes(NUnit.Framework.Internal.TestMethod)">
+        <member name="M:NUnit.Framework.Internal.Builders.NUnitTestCaseBuilder.CheckTestMethodAttributes(NUnit.Framework.Internal.TestMethod,NUnit.Framework.Internal.Builders.MethodInfoCache.TestMethodMetadata)">
             <summary>
             Checks to see if we have valid combinations of attributes.
             </summary>
             <param name="testMethod">The TestMethod to be checked. If it
             is found to be non-runnable, it will be modified.</param>
+            <param name="metadata">Metadata for this TestMethod.</param>
             <returns>True if the method signature is valid, false if not</returns>
         </member>
-        <member name="M:NUnit.Framework.Internal.Builders.NUnitTestCaseBuilder.CheckTestMethodSignature(NUnit.Framework.Internal.TestMethod,NUnit.Framework.Internal.TestCaseParameters)">
+        <member name="M:NUnit.Framework.Internal.Builders.NUnitTestCaseBuilder.CheckTestMethodSignature(NUnit.Framework.Internal.TestMethod,NUnit.Framework.Internal.Builders.MethodInfoCache.TestMethodMetadata,NUnit.Framework.Internal.TestCaseParameters)">
              <summary>
              Helper method that checks the signature of a TestMethod and
              any supplied parameters to determine if the test is valid.
@@ -12966,6 +13007,7 @@
              </summary>
              <param name="testMethod">The TestMethod to be checked. If it
              is found to be non-runnable, it will be modified.</param>
+             <param name="metadata">Metadata for this TestMethod.</param>
              <param name="parms">Parameters to be used for this test, or null</param>
              <returns>True if the method signature is valid, false if not</returns>
              <remarks>
@@ -13377,6 +13419,11 @@
             Initializes a new instance of the <see cref="T:NUnit.Framework.Internal.Commands.DelegatingTestCommand"/> class.
             </summary>
             <param name="innerCommand">The inner command.</param>
+        </member>
+        <member name="M:NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(NUnit.Framework.Internal.TestExecutionContext,System.Action)">
+            <summary>
+            Runs the test with exception handling.
+            </summary>
         </member>
         <member name="T:NUnit.Framework.Internal.Commands.DisposeFixtureCommand">
             <summary>
@@ -15242,7 +15289,7 @@
         </member>
         <member name="T:NUnit.Framework.Internal.Filters.AndFilter">
             <summary>
-            Combines multiple filters so that a test must pass all 
+            Combines multiple filters so that a test must pass all
             of them in order to pass this filter.
             </summary>
         </member>
@@ -15429,6 +15476,24 @@
             Gets the element name
             </summary>
             <value>Element name</value>
+        </member>
+        <member name="T:NUnit.Framework.Internal.Filters.InFilter">
+            <summary>
+            Optimized filter to check in condition using HashSet.
+            </summary>
+        </member>
+        <member name="M:NUnit.Framework.Internal.Filters.InFilter.#ctor(System.Func{NUnit.Framework.Interfaces.ITest,System.String},System.Collections.Generic.IEnumerable{System.String},System.String)">
+            <summary>
+            Constructs new InFilter.
+            </summary>
+            <param name="selector">Selector to get value to check.</param>
+            <param name="values">Valid values for the filter.</param>
+            <param name="xmlElementName">The XML element name the original filter used.</param>
+        </member>
+        <member name="M:NUnit.Framework.Internal.Filters.InFilter.TryOptimize(NUnit.Framework.Internal.Filters.OrFilter,NUnit.Framework.Internal.Filters.InFilter@)">
+            <summary>
+            Tries to optimize OrFilter into InFilter if contained filters are all same and non-regex.
+            </summary>
         </member>
         <member name="T:NUnit.Framework.Internal.Filters.MethodNameFilter">
             <summary>
@@ -16166,6 +16231,15 @@
             <summary>
             Override ToString() so that error messages in NUnit's own tests make sense
             </summary>
+        </member>
+        <member name="M:NUnit.Framework.Internal.MethodWrapper.Equals(NUnit.Framework.Internal.MethodWrapper)">
+            <inheritdoc />
+        </member>
+        <member name="M:NUnit.Framework.Internal.MethodWrapper.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:NUnit.Framework.Internal.MethodWrapper.GetHashCode">
+            <inheritdoc />
         </member>
         <member name="T:NUnit.Framework.Internal.NUnitCallContext">
             <summary>
@@ -17237,6 +17311,18 @@
             <param name="type">Type to reflect on for the indexer.</param>
             <param name="indexerTypes">List of indexer types that matches the indexer type order.</param>
             <returns>The Get accessor</returns>
+        </member>
+        <member name="M:NUnit.Framework.Internal.Reflect.GetMemberIncludingFromBase(System.Type,System.String,System.Reflection.BindingFlags)">
+            <summary>
+            Searches for the specified members, using the specified binding constraints.
+            </summary>
+            <remarks>
+            Similar to <see cref="M:System.Type.GetMember(System.String,System.Reflection.BindingFlags)"/> but also finds private static members from the base class.
+            </remarks>
+            <param name="type">The type to find the members from.</param>
+            <param name="name">The string containing the name of the members to get.</param>
+            <param name="flags">A bitwise combination of the enumeration values that specify how the search is conducted.</param>
+            <returns></returns>
         </member>
         <member name="T:NUnit.Framework.Internal.TestCaseResult">
             <summary>
@@ -18451,6 +18537,17 @@
             <param name="testMethod">A TestMethod</param>
             <param name="args">Arguments to be used</param>
             <returns>The display name</returns>
+        </member>
+        <member name="M:NUnit.Framework.Internal.TestNameGenerator.NameFragment.MayNeedEscape(System.String)">
+            <summary>
+            Checks if string contains any character that might need escaping.
+            </summary>
+        </member>
+        <member name="M:NUnit.Framework.Internal.TestNameGenerator.NameFragment.MayNeedEscape(System.Char)">
+            <summary>
+            Checks whether given char *might* need escaping.
+            </summary>
+            <returns>False when absolutely no escaping is needed, otherwise true.</returns>
         </member>
         <member name="T:NUnit.Framework.Internal.TestParameters">
             <summary>
@@ -21163,6 +21260,59 @@
         <member name="M:NUnit.Compatibility.LongLivedMarshalByRefObject.InitializeLifetimeService">
             <summary>
             Obtains a lifetime service object to control the lifetime policy for this instance.
+            </summary>
+        </member>
+        <member name="T:NUnit.Compatibility.TypeExtensions">
+            <summary>
+            Provides NUnit specific extensions to aid in Reflection
+            across multiple frameworks
+            </summary>
+            <remarks>
+            This version of the class supplies GetTypeInfo() on platforms
+            that don't support it.
+            </remarks>
+        </member>
+        <member name="M:NUnit.Compatibility.TypeExtensions.GetTypeInfo(System.Type)">
+            <summary>
+            GetTypeInfo gives access to most of the Type information we take for granted
+            on .NET Core and Windows Runtime. Rather than #ifdef different code for different
+            platforms, it is easiest to just code all platforms as if they worked this way,
+            thus the simple passthrough.
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NUnit.Compatibility.TypeExtensions.GetMethodInfo(System.Delegate)">
+            <summary>
+            See <see cref="M:System.Delegate.CreateDelegate(System.Type,System.Reflection.MethodInfo)"/>.
+            </summary>
+        </member>
+        <member name="T:NUnit.Compatibility.AssemblyExtensions">
+            <summary>
+            Extensions for Assembly that are not available in pre-4.5 .NET releases
+            </summary>
+        </member>
+        <member name="M:NUnit.Compatibility.AssemblyExtensions.GetCustomAttribute``1(System.Reflection.Assembly)">
+            <summary>
+            An easy way to get a single custom attribute from an assembly
+            </summary>
+            <typeparam name="T">The attribute Type</typeparam>
+            <param name="assembly">The assembly</param>
+            <returns>An attribute of Type T</returns>
+        </member>
+        <member name="T:NUnit.Compatibility.MethodInfoExtensions">
+            <summary>
+            Extensions for MethodInfo that are not available in pre-4.5 .NET releases
+            </summary>
+        </member>
+        <member name="M:NUnit.Compatibility.MethodInfoExtensions.CreateDelegate(System.Reflection.MethodInfo,System.Type)">
+            <summary>
+            See <see cref="M:System.Delegate.CreateDelegate(System.Type,System.Reflection.MethodInfo)"/>.
+            </summary>
+        </member>
+        <member name="M:NUnit.Compatibility.MethodInfoExtensions.CreateDelegate(System.Reflection.MethodInfo,System.Type,System.Object)">
+            <summary>
+            See <see cref="M:System.Delegate.CreateDelegate(System.Type,System.Object,System.Reflection.MethodInfo)"/>.
             </summary>
         </member>
         <member name="T:System.Diagnostics.CodeAnalysis.AllowNullAttribute">

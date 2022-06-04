@@ -1,3 +1,40 @@
+# NUnit Release Notes
+
+## NUnit 3.13.3 - March 20, 2022
+
+This release includes several performance enhancements. [@lahma](https://github.com/lahma) provided a massive speed improvement for large parametrized test suites. In addition, quivalency tests with large unsortable collections run faster by determining if the collections are sortable before attempting to sort them.
+
+We've added several fixes for .NET 6.0 and we've stopped testing NUnit against .NET Core 2.1 which is now out of support.
+
+There are also several fixes for the new `FixtureLifeCycle` feature and other smaller bug fixes and performance improvements.
+
+### Issues Resolved
+
+* 2963 Flakey tests in FrameworkControllerTests
+* 3643 Assert.Pass(message) produces "reason" in XML-Result
+* 3841 Breaking change: Is.SupersetOf with ValueTuple requires IComparable in NUnit 3.13.2
+* 3843 IDisposable & InstancePerTestCase: Object created for OneTimeSetUp is not disposed
+* 3898 NUnit 3.13.2 : LessThanOrEqualTo fails on a case which should succeed
+* 3903 Backport race condition fix (PR 3883)
+* 3904 Backport fix for "IDisposable & InstancePerTestCase" (PR 3843)
+* 3929 Fix high precision decimal calculations in v3.13 (#3898)
+* 3959 Marked 'NUnitEqualityComparer.AreEqual(object, object, Tolerance, bool)' as obsolete
+* 3962 Ensure that AfterTest always runs in AfterTestCommand
+* 3971 Backport "Add missing `[DoesNotReturn]` annotations" from #3958
+* 3976 Equivalency fallback for non-IComparable types can leave CollectionTally in corrupt state
+* 3998 Eagerly determine when a set is unsortable
+* 3999 Numeric comparison fails when it should succeed.
+* 4000 OverflowException comparing large double values
+* 4007 Eagerly detect sortable types for equivalency tests in 3.13.x
+* 4030 IsEmpty doesn't work with new .NET6 PriorityQueue
+* 4032 Tests won't run with an abstract base class that has a TestCaseFixtureSource
+* 4033 Recognized private members in base class for Source attributes
+* 4034 Improve method discovery and filtering performance
+* 4041 Minimze empty array allocations via centralized helper for pre-net46
+* 4043 Stop testing the framework against netcoreapp21 in v3.13 branch
+* 4045 Drop netcore2.1 as a target (backport #3986)
+* 4058 Remove TopLevel property from ValueMatchFilter
+
 ## NUnit 3.13.2 - April 27, 2021
 
 This release fixes a new issue with the `FixtureLifeCycle` attribute where `IDisposable` test fixtures were not being disposed properly. As always, [@gleb-osokin](https://github.com/gleb-osokin) has been a great help with this new feature.
@@ -149,7 +186,7 @@ This release also fixes several issues running tests in .NET 5.0. If your tests 
 * 3694 Async tests causes double failure messages
 * 3699 Compilation of netcoreapp3.1 targets fails on CI (both AppVeyor and Azure Pipelines)
 
-### NUnit 3.12 - May 14, 2019
+## NUnit 3.12 - May 14, 2019
 
 This release of NUnit finally drops support for .NET 2.0. If your application still
 targets .NET 2.0, your tests will need to target at least .NET 3.5. Microsoft ended
@@ -223,7 +260,7 @@ and enabling Timeout on tests.
  * 3222 Our build script tests hang when run with Mono on Windows
  * 3233 AndConstraint should write additional information from failed constraint
 
-### NUnit 3.11 - October 6, 2018
+## NUnit 3.11 - October 6, 2018
 
  * More informative assertion messages
  * PlatformAttribute is available on .NET Standard and now detects .NET Core
@@ -287,12 +324,12 @@ and enabling Timeout on tests.
  * 3024 Unable to add `.IgnoreCase` modifier to an `AnyOf` constraint in collection constraints
  * 3032 APIs to restore before 3.11
 
-### NUnit 3.10.1 - March 12, 2018
+## NUnit 3.10.1 - March 12, 2018
 
 Added a namespace to the props file included in the NuGet package to make it
 compatible with versions of Visual Studio prior to VS 2017.
 
-### NUnit 3.10 - March 12, 2018
+## NUnit 3.10 - March 12, 2018
 
 This release adds a .NET Standard 2.0 version of the framework which re-enables
 most of the features that have been missing in our earlier .NET Standard builds
@@ -369,7 +406,7 @@ supported targets on Windows, Linux and Mac using the Cake command line build.
  * 2742 FailureSite not correctly set on containing suites when tests are ignored.
  * 2749 Update Travis SDK versions
 
-### NUnit 3.9 - November 10, 2017
+## NUnit 3.9 - November 10, 2017
 
 This release addresses numerous parallelization issues that were introduced in 3.8
 when method level parallelization was added. Most of the parallelization issues
@@ -430,7 +467,7 @@ and `ApartmentState` not being properly applied to tests in all cases.
  * 2551 CollectionItemsEqualConstraint is missing Using(Func<T, T, bool>)
  * 2554 Made TestFixtureData.SetName internal for 3.9
 
-### NUnit 3.8.1 - August 28, 2017
+## NUnit 3.8.1 - August 28, 2017
 
 This release fixes two critical regressions in the 3.8 release. The first caused the console
 runner to crash if you are using test parameters. The second issue caused collection
@@ -441,7 +478,7 @@ constraints checking for multiple items in a collection to fail.
  * 2386 Contains.Item() fails for collections in NUnit 3.8
  * 2390 Missing value attribute in test parameters setting causes NullReferenceException in console
 
-### NUnit 3.8 - August 27, 2017
+## NUnit 3.8 - August 27, 2017
 
 This release removes several methods and attributes that were marked obsolete in the
 original 3.0 release. Support for iOS and Android has been improved.
@@ -501,7 +538,7 @@ that test fixtures will be run.
  * 2361 NUnit Parallelizable and OneTimeSetUp with no namespace results in single-threaded test execution
  * 2370 TestCaseAttribute can't convert int to nullable long
 
-### NUnit 3.7.1 - June 6, 2017
+## NUnit 3.7.1 - June 6, 2017
 
 This is a hotfix release that addresses occasional hangs when using test parallelization
 and fixes crashes in NCrunch prior to version 3.9.
@@ -511,7 +548,7 @@ and fixes crashes in NCrunch prior to version 3.9.
  * 2205 Ncrunch: System.Xml.XmlException: Root element is missing, when adding NUnit 3.7.0
  * 2209 NUnit occasionally hangs when parallelizable TestFixture has OneTimeSetUp and OneTimeTearDown
 
-### NUnit 3.7 - May 29, 2017
+## NUnit 3.7 - May 29, 2017
 
 This release of NUnit expands on parallel test execution to allow test methods to
 be run in parallel. Please see the [Parallelizable Attribute](https://github.com/nunit/docs/wiki/Parallelizable-Attribute)
@@ -598,7 +635,7 @@ is using the AssertionHelper class, we recommend that you migrate your asserts.
  * 2186 Replace special characters as part of converting branch names to package versions
  * 2191 System.Reflection.TargetInvocationException with nunit3-console --debug on Mono
 
-### NUnit 3.6.1 - February 26, 2017
+## NUnit 3.6.1 - February 26, 2017
 
 This is a hotfix release of the framework that addresses critical issues found in
 the 3.6 release.
@@ -611,7 +648,7 @@ the 3.6 release.
  * 2017 Two NUnit project's tests fail on systems with comma decimal mark settings
  * 2043 Regression in 3.6.0 when catching AssertionException
 
-### NUnit 3.6 - January 9, 2017
+## NUnit 3.6 - January 9, 2017
 
 This release of the framework no longer includes builds for Compact Framework or
 for SilverLight, but adds a .NET Standard 1.6 build. If anyone still using
@@ -680,7 +717,7 @@ versions of the framework, please contact the NUnit team.
  * 1960 Typo fixes
  * 1966 Xamarin Runner cannot reference NUnit NuGet Package
 
-### NUnit 3.5 - October 3, 2016
+## NUnit 3.5 - October 3, 2016
 
 This is the first version of NUnit where the framework will be released separately from the
 console runner, engine and other extensions. From this point forward, the NUnit Framework will be
@@ -729,7 +766,7 @@ use the NUnit NuGet packages for the framework, but a ZIP file with the binaries
  * 1805 Error message "arguments provided for method not taking any" seems incomplete / doesn't make much sense
  * 1815 Prevent NullReferenceException in SubPathConstraint
 
-### NUnit 3.4.1 - June 30, 2016
+## NUnit 3.4.1 - June 30, 2016
 
 ### Console Runner
 
@@ -743,7 +780,7 @@ use the NUnit NuGet packages for the framework, but a ZIP file with the binaries
  * 1628 Agent's process stays in memory when it was failed to unload AppDomain
  * 1635 Console option to list loaded extensions
 
-### NUnit 3.4 - June 25, 2016
+## NUnit 3.4 - June 25, 2016
 
 ### Framework
 
@@ -821,7 +858,7 @@ use the NUnit NuGet packages for the framework, but a ZIP file with the binaries
  * 1607 nunit.nuget.addins discovery pattern is wrong then restored through project.json
  * 1617 Load user profile on test runners
 
-### NUnit 3.2.1 - April 19, 2016
+## NUnit 3.2.1 - April 19, 2016
 
 ### Framework
 
@@ -869,7 +906,7 @@ use the NUnit NuGet packages for the framework, but a ZIP file with the binaries
  * 1410 Make OutFile and ErrFile streamwriters synchronized
  * 1413 Switch console to use a local engine
 
-### NUnit 3.2 - March 5, 2016
+## NUnit 3.2 - March 5, 2016
 
 ### Framework
 
@@ -931,7 +968,7 @@ use the NUnit NuGet packages for the framework, but a ZIP file with the binaries
  * 1297 NUnit.Engine nuget package improvements
  * 1301 Assert.AreNotSame evaluates ToString unnecessarily
 
-### NUnit 3.0.1 - December 1, 2015
+## NUnit 3.0.1 - December 1, 2015
 
 ### Console Runner
 
@@ -959,13 +996,13 @@ use the NUnit NuGet packages for the framework, but a ZIP file with the binaries
  * 1062 Console.WriteLine statements in "OneTimeSetUp" and "OneTimeTearDown" annotated methods are not directed to the console when using nunit3-console.exe runner
  * 1063 Error in Random Test
 
-### NUnit 3.0.0 Final Release - November 15, 2015
+## NUnit 3.0.0 Final Release - November 15, 2015
 
 ### Issues Resolved
 
  * 635 Mono 4.0 Support
 
-### NUnit 3.0.0 Release Candidate 3 - November 13, 2015
+## NUnit 3.0.0 Release Candidate 3 - November 13, 2015
 
 ### Engine
 
@@ -980,7 +1017,7 @@ use the NUnit NuGet packages for the framework, but a ZIP file with the binaries
  * 1015 Specifying .nunit project and --framework on command line causes crash
  * 1017 Remove Assert.Multiple from framework
 
-### NUnit 3.0.0 Release Candidate 2 - November 8, 2015
+## NUnit 3.0.0 Release Candidate 2 - November 8, 2015
 
 ### Engine
 
@@ -999,7 +1036,7 @@ use the NUnit NuGet packages for the framework, but a ZIP file with the binaries
  * 997  Add missing XML Documentation
  * 1008 NUnitLite namespace not updated in the NuGet Packages
 
-### NUnit 3.0.0 Release Candidate - November 1, 2015
+## NUnit 3.0.0 Release Candidate - November 1, 2015
 
 ### Framework
 
@@ -1011,7 +1048,7 @@ use the NUnit NuGet packages for the framework, but a ZIP file with the binaries
  * `TestCaseAttribute` and `TestCaseData` now allow modifying the test name without replacing it entirely.
  * The Silverlight packages are now separate downloads.
 
-### NUnitLite
+## NUnitLite
 
  * The NUnitLite runner now produces the same output display and XML results as the console runner.
 
@@ -1055,7 +1092,7 @@ use the NUnit NuGet packages for the framework, but a ZIP file with the binaries
  * 960 Intermittent failure of CategoryFilterTests
  * 967 Run Settings Report is not being displayed.
 
-### NUnit 3.0.0 Beta 5 - October 16, 2015
+## NUnit 3.0.0 Beta 5 - October 16, 2015
 
 ### Framework
 
@@ -1076,7 +1113,7 @@ use the NUnit NuGet packages for the framework, but a ZIP file with the binaries
  * The console runner no longer accepts the --include and --exclude options. Instead, the new --where option provides a more general way to express which tests will be executed, such as --where "cat==Fast && Priority==High". See the docs for details of the syntax.
  * The new --debug option causes NUnit to break in the debugger immediately before tests are run. This simplifies debugging, especially when the test is run in a separate process.
 
-#### Issues Resolved
+### Issues Resolved
 
  *  41	Check for zeroes in Assert messages
  * 254	Finalize XML format for test results
@@ -1120,7 +1157,7 @@ use the NUnit NuGet packages for the framework, but a ZIP file with the binaries
  * 894	Give nunit.engine and nunit.engine.api assemblies strong names
  * 896	NUnit 3.0 console runner not placing test result xml in --work directory
 
-### NUnit 3.0.0 Beta 4 - August 25, 2015
+## NUnit 3.0.0 Beta 4 - August 25, 2015
 
 ### Framework
 
@@ -1158,7 +1195,7 @@ use the NUnit NuGet packages for the framework, but a ZIP file with the binaries
  * 780 Teamcity fix
  * 782 No sources for 2.6.4
 
-### NUnit 3.0.0 Beta 3 - July 15, 2015
+## NUnit 3.0.0 Beta 3 - July 15, 2015
 
 ### Framework
 
@@ -1220,7 +1257,7 @@ use the NUnit NuGet packages for the framework, but a ZIP file with the binaries
  * 724 Adds support for `Nullable<bool>` to Assert.IsTrue and Assert.IsFalse
  * 734 Console without parameters doesn't show help
 
-### NUnit 3.0.0 Beta 2 - May 12, 2015
+## NUnit 3.0.0 Beta 2 - May 12, 2015
 
 ### Framework
 
@@ -1284,7 +1321,7 @@ use the NUnit NuGet packages for the framework, but a ZIP file with the binaries
  * 646  ConfigurationManager.AppSettings Params Return Null under Beta 1
  * 648  Passing 2 or more test assemblies targeting > .NET 2.0 to nunit-console fails
 
-### NUnit 3.0.0 Beta 1 - March 25, 2015
+## NUnit 3.0.0 Beta 1 - March 25, 2015
 
 ### General
 
@@ -1348,7 +1385,7 @@ use the NUnit NuGet packages for the framework, but a ZIP file with the binaries
  * 534	Add classname and methodname to test result xml
  * 541	Console help doesn't indicate defaults
 
-### NUnit 3.0.0 Alpha 5 - January 30, 2015
+## NUnit 3.0.0 Alpha 5 - January 30, 2015
 
 ### General
 
@@ -1395,7 +1432,7 @@ use the NUnit NuGet packages for the framework, but a ZIP file with the binaries
  * 468  Change default domain usage to multiple.
  * 469  Truncate string arguments in test names in order to limit the length.
 
-### NUnit 3.0.0 Alpha 4 - December 30, 2014
+## NUnit 3.0.0 Alpha 4 - December 30, 2014
 
 ### Framework
 
@@ -1446,7 +1483,7 @@ use the NUnit NuGet packages for the framework, but a ZIP file with the binaries
  * 417	Complete work on NUnit projects
  * 420	Create Settings file in proper location
 
-### NUnit 3.0.0 Alpha 3 - November 29, 2014
+## NUnit 3.0.0 Alpha 3 - November 29, 2014
 
 ### Breaking Changes
 
@@ -1513,7 +1550,7 @@ use the NUnit NuGet packages for the framework, but a ZIP file with the binaries
  * 378  Correct documentation for PairwiseAttribute
  * 386  Console Output Improvements
 
-### NUnit 3.0.0 Alpha 2 - November 2, 2014
+## NUnit 3.0.0 Alpha 2 - November 2, 2014
 
 ### Breaking Changes
 
@@ -1562,7 +1599,7 @@ use the NUnit NuGet packages for the framework, but a ZIP file with the binaries
  * 319	CI builds are not treating test failures as failures of the build
  * 322	Remove Stopwatch tests where they test the real .NET Stopwatch
 
-### NUnit 3.0.0 Alpha 1 - September 22, 2014
+## NUnit 3.0.0 Alpha 1 - September 22, 2014
 
 ### Breaking Changes
 
@@ -1618,7 +1655,7 @@ use the NUnit NuGet packages for the framework, but a ZIP file with the binaries
  * 24	'Debug' value for /trace option is deprecated in 2.6.3
  * 38	Confusing Excluded categories output
 
-### NUnit 2.9.7 - August 8, 2014
+## NUnit 2.9.7 - August 8, 2014
 
 ### Breaking Changes
 
@@ -1675,7 +1712,7 @@ use the NUnit NuGet packages for the framework, but a ZIP file with the binaries
 
 NOTE: Bug Fixes below this point refer to the number of the bug in Launchpad.
 
-### NUnit 2.9.6 - October 4, 2013
+## NUnit 2.9.6 - October 4, 2013
 
 ### Main Features
 
@@ -1768,7 +1805,7 @@ NOTE: Bug Fixes below this point refer to the number of the bug in Launchpad.
  * 1228979	Theories with all test cases inconclusive are not reported as failures
 
 
-### NUnit 2.9.5 - July 30, 2010
+## NUnit 2.9.5 - July 30, 2010
 
 ### Bug Fixes
 
@@ -1788,7 +1825,7 @@ NOTE: Bug Fixes below this point refer to the number of the bug in Launchpad.
  * 606548 	Deprecate Directory Assert in 2.5 and remove it in 3.0
  * 608875 	NUnit Equality Comparer incorrectly defines equality for Dictionary objects
 
-### NUnit 2.9.4 - May 4, 2010
+## NUnit 2.9.4 - May 4, 2010
 
 ### Bug Fixes
 
@@ -1808,7 +1845,7 @@ NOTE: Bug Fixes below this point refer to the number of the bug in Launchpad.
  * 561436 	SetCulture broken with 2.5.4
  * 563532 	DatapointsAttribute should be allowed on properties and methods
 
-### NUnit 2.9.3 - October 26, 2009
+## NUnit 2.9.3 - October 26, 2009
 
 ### Main Features
 
@@ -1822,7 +1859,7 @@ NOTE: Bug Fixes below this point refer to the number of the bug in Launchpad.
  * 432805 	Some Framework Tests don't run on Linux
  * 440109 	Full Framework does not support "Contains"
 
-### NUnit 2.9.2 - September 19, 2009
+## NUnit 2.9.2 - September 19, 2009
 
 ### Main Features
 
@@ -1836,7 +1873,7 @@ NOTE: Bug Fixes below this point refer to the number of the bug in Launchpad.
  * 432566 	NUnitLite shows empty string as argument
  * 432573 	Mono test should be at runtime
 
-### NUnit 2.9.1 - August 27, 2009
+## NUnit 2.9.1 - August 27, 2009
 
 ### General
 
