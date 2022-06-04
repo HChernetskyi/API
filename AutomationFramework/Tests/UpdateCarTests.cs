@@ -28,7 +28,7 @@ namespace AutomationFramework.Tests
         [Test, Order(2)]
         public void NegativeTestWithValidId()
         {
-            Car updateCar = new Car() { id = carId * -1, build = 2008, manufacturer = "Mitsubishi", model = "Lancer X" };
+            Car updateCar = new Car() { id = carId * -1, build = 2008, manufacturer = "Mitsubishi", model = "Lancer 9" };
             RequestHelper api = new RequestHelper();
             HttpResponseMessage response = api.PutAsync(url, updateCar).Result;
             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode, "Incorrect StatusCode for PUT request");
