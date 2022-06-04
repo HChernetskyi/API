@@ -53,7 +53,7 @@ namespace AutomationFramework.Tests
             Car responseBody = response.GetDeserializedResponse<Car>();
             Assert.Multiple(() =>
                 {
-                    //Assert.AreEqual(newCar.id, responseBody.id, "Incorrect ResponseBody id");
+                    Assert.AreEqual(newCar.id, responseBody.id, "Incorrect ResponseBody id");
                     Assert.AreEqual(newCar.build, responseBody.build, "Incorrect ResponseBody build");
                     Assert.AreEqual(newCar.manufacturer, responseBody.manufacturer, "Incorrect ResponseBody manufacturer");
                     Assert.AreEqual(newCar.model, responseBody.model, "Incorrect ResponseBody model");
