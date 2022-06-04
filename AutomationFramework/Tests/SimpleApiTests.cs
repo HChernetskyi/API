@@ -40,7 +40,7 @@ namespace AutomationFramework.Tests
             HttpResponseMessage response = api.GetAsync(url).Result;
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "Incorrect StatusCode");
             string responseBody = response.GetStringResponse().Replace(" ", "");
-            Assert.AreEqual(expectedResponseBody, responseBody, "Incorrect ResponseBody");
+            Assert.AreEqual(expectedResponseBody, responseBody, "Unexpected ResponseBody");
         }
         [Test, Order(2)]
         public void AddCar()
@@ -49,14 +49,14 @@ namespace AutomationFramework.Tests
             RequestHelper api = new RequestHelper();
             HttpResponseMessage response = api.PostAsync(url, newCar).Result;
             var x = response.GetStringResponse();
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "Incorrect StatusCode");
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "StatusCode wasn't 200 OK!");
             Car responseBody = response.GetDeserializedResponse<Car>();
             Assert.Multiple(() =>
                 {
-                    //Assert.AreEqual(newCar.id, responseBody.id, "Incorrect ResponseBody id");
-                    Assert.AreEqual(newCar.build, responseBody.build, "Incorrect ResponseBody build");
-                    Assert.AreEqual(newCar.manufacturer, responseBody.manufacturer, "Incorrect ResponseBody manufacturer");
-                    Assert.AreEqual(newCar.model, responseBody.model, "Incorrect ResponseBody model");
+                    Assert.AreEqual(newCar.id, responseBody.id, $"Incorrect ResponseBody id: expected {newCar.id}, but actual is: {responseBody.id}");
+                    Assert.AreEqual(newCar.build, responseBody.build, $"Incorrect ResponseBody.build: expected {newCar.build}, but actual is: {responseBody.build}");
+                    Assert.AreEqual(newCar.manufacturer, responseBody.manufacturer, $"Incorrect ResponseBody manufacturer: expected {newCar.manufacturer}, but actual is: {responseBody.manufacturer}");
+                    Assert.AreEqual(newCar.model, responseBody.model, $"Incorrect ResponseBody model: expected {newCar.model}, but actual result is: {responseBody.model}");
                 });
         }
     }
