@@ -49,6 +49,8 @@ namespace AutomationFramework.Tests
 			response.StatusCode.Should().Be(HttpStatusCode.OK);
 			responseResult.Should().Contain(existsResult);
 		}
+            responseResult.Count.Should().BeGreaterOrEqualTo(existsResult.Count);
+        }
 
 		[Test, Order(2)]
 		public void AddCar()
