@@ -47,7 +47,7 @@ namespace AutomationFramework.Tests
 			var responseResult = JsonConvert.DeserializeObject<List<Car>>(responseBody);
 
 			response.StatusCode.Should().Be(HttpStatusCode.OK);
-			//responseResult.Should().Contain(existsResult);
+			responseResult.Should().Contain(existsResult);
 		}
 
 		[Test, Order(2)]
